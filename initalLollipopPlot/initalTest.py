@@ -29,6 +29,8 @@ import json
 import urllib
 
 import icgc
+import matplotlib.pyplot as plt
+import pandas as pd
 
 
 def run():
@@ -38,11 +40,23 @@ def run():
     numberOfSeqs = json.load(urllib.request.urlopen(
         "http://dcc.icgc.org/api/v1/genes/ENSG00000182185/mutations/count"))
     print(numberOfSeqs)
+    counter = 0
     to_nearest_hunderd = 101 - (numberOfSeqs % 100)
+    placeInGenome = []
+    numberOfOccurences = []
     for i in range(0, numberOfSeqs+to_nearest_hunderd, 100):
-        json_file = json.load(urllib.request.urlopen(
-            f"https://dcc.icgc.org/api/v1/genes/ENSG00000182185/mutations?from={i}&size=100"))
+        try:
+            json_file = json.load(urllib.request.urlopen(
+                f"https://dcc.icgc.org/api/v1/genes/ENSG00000182185/mutations?from={i}&size=100"))
+        except:
+            print(f"{i} got messed")
         print(i)
+        for hit in json_file['hits']:
+            if hit['type'] == 'single base substitution':
+                placeInGenome.append(hit['start'])
+                numberOfOccurences.append(hit['affectedDonorCountTotal'])
+    plt.stem(placeInGenome, numberOfOccurences)
+    plt.show()
     # response = icgc.query(request_type='genes',
     #                       pql='')
     # print(response)
