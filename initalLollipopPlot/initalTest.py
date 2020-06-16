@@ -56,7 +56,12 @@ def run():
                 placeInGenome.append(hit['start'])
                 numberOfOccurences.append(hit['affectedDonorCountTotal'])
     plt.stem(placeInGenome, numberOfOccurences)
+    plt.title("RAD51B Mutation Map")
+    plt.xlabel('Position')
+    plt.ylabel('# of Donors')
+
     plt.show()
+
     # response = icgc.query(request_type='genes',
     #                       pql='')
     # print(response)
