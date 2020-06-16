@@ -23,7 +23,10 @@ def run():
         except:
             print(f"{i} got messed")
         print(i)
+
         for hit in json_file['hits']:
+            print(hit)
+            quit()
             if hit['type'] == 'single base substitution':
                 placeInGenome.append(hit['start'])
                 numberOfOccurences.append(hit['affectedDonorCountTotal'])
