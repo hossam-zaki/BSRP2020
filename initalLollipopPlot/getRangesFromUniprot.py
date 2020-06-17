@@ -42,6 +42,3 @@ def getRange():
             description = feature.attrib['description']
             rangesWithLabels[description] = ((begin, end))
     return rangesWithLabels
-
-
-print(getRange())
