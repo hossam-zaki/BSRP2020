@@ -6,14 +6,18 @@ json = ensembl_rest.symbol_lookup(
     params={'expand': True}
 )
 
+
 start = json['start']
 end = json['end']
-print(end-start)
 
 
 def getTranscriptsAndRanges():
     transcriptAndRange = {}
     for transcript in json['Transcript']:
-        transcriptAndRange[transcript['id'] + "/" + transcript['biotype']] = (
-            (transcript['start']-start, transcript['end'] - start))
+        if 'Translation' not in transcript:
+            continue
+        transcriptAndRange[transcript['Translation']['id']] = []
+        for exon in transcript['Exon']:
+            transcriptAndRange[transcript['Translation']
+                               ['id']].append((exon['start']-start, exon['end']-start))
     return transcriptAndRange
