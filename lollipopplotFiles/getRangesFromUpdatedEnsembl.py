@@ -14,10 +14,11 @@ end = json['end']
 def getTranscriptsAndRanges():
     transcriptAndRange = {}
     for transcript in json['Transcript']:
-        if 'Translation' not in transcript:
+        if transcript['biotype'] != 'protein_coding':
             continue
-        transcriptAndRange[transcript['Translation']['id']] = []
+        transcriptAndRange[transcript['id']] = []
         for exon in transcript['Exon']:
-            transcriptAndRange[transcript['Translation']
+            transcriptAndRange[transcript
                                ['id']].append((exon['start']-start, exon['end']-start))
+    print(transcriptAndRange)
     return transcriptAndRange

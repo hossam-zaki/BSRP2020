@@ -6,10 +6,10 @@ import urllib
 import icgc
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
-
-import initalLollipopPlot.getRangesFromUpdatedEnsembl as getRangesFromUpdatedEnsembl
 import pandas as pd
 from pyliftover import LiftOver
+
+import getRangesFromUpdatedEnsembl as getRangesFromUpdatedEnsembl
 
 lo = LiftOver('hg19', 'hg38')
 
@@ -19,7 +19,7 @@ def lift(coord):
 
 
 def get_cmap(n, name='hsv'):
-    '''Returns a function that maps each index in 0, 1, ..., n-1 to a distinct 
+    '''Returns a function that maps each index in 0, 1, ..., n-1 to a distinct
     RGB color; the keyword argument name must be a standard mpl colormap name.'''
     return plt.cm.get_cmap(name, n)
 
@@ -35,8 +35,8 @@ def buildPlot():
     to_nearest_hunderd = 101 - (numberOfSeqs % 100)
     placeInGenome = []
     numberOfOccurences = []
-    # numberOfSeqs+to_nearest_hunderd
-    for i in range(0, 300, 100):
+    #
+    for i in range(0, numberOfSeqs+to_nearest_hunderd, 100):
         try:
             json_file = json.load(urllib.request.urlopen(
                 f"https://dcc.icgc.org/api/v1/genes/ENSG00000182185/mutations?from={i}&size=100"))
@@ -66,13 +66,20 @@ def addTranscriptstoPlot():
     counter = 1
     legend = []
     for transcript in ranges:
+        print(transcript)
         for exon in ranges[transcript]:
-            print(exon)
+            print((exon[0]/(end-start), exon[1]/(end-start)))
             plt.axhline(-counter/500, linewidth=8, xmin=(
                 exon[0]/(end-start)), xmax=(exon[1]/(end-start)), color=cmap(counter-1))
         legend.append(mpatches.Patch(color=cmap(counter-1), label=transcript))
         counter += 1
     axes = plt.gca()
-
+    axes.set_xlim([0, end-start])
     axes.set_ylim([-counter/500, .05])
     plt.legend(handles=legend,)
+
+
+if __name__ == "__main__":
+    buildPlot()
+    addTranscriptstoPlot()
+    plt.show()
