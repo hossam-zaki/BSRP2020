@@ -33,8 +33,8 @@ def buildPlot():
     to_nearest_hunderd = 101 - (numberOfSeqs % 100)
     placeInGenome = []
     numberOfOccurences = []
-    #
-    for i in range(0, numberOfSeqs+to_nearest_hunderd, 100):
+    # numberOfSeqs+to_nearest_hunderd
+    for i in range(0, 200, 100):
         try:
             json_file = json.load(urllib.request.urlopen(
                 f"https://dcc.icgc.org/api/v1/genes/ENSG00000182185/mutations?from={i}&size=100"))

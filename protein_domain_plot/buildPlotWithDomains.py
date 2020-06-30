@@ -5,7 +5,7 @@ import sys
 import urllib
 
 import ensembl_rest
-import matplotlib.patches as mpatches
+import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -39,21 +39,29 @@ def buildRanges():
 
 def buildPlotWithProtein():
     print('building plot...')
-    plotBuilder.buildPlot()
+    # plotBuilder.buildPlot()
     print("loading json...")
     startAndEndJson = json.load(urllib.request.urlopen(
         "https://dcc.icgc.org/api/v1/genes/ENSG00000182185"))  # lift this
     start = plotBuilder.lift(startAndEndJson['start'])
     end = plotBuilder.lift(startAndEndJson['end'])
+    print(start)
     ranges = buildRanges()
     cmap = plotBuilder.get_cmap(len(ranges)+1)
     counter = 1
     legend = []
+    fig, ax = plt.subplots(1)
     for feat in ranges:
         for transcript in ranges[feat]:
-            plt.axhline(-counter/500, linewidth=8, xmin=(
-                ranges[feat][transcript][0]/(end-start)), xmax=(ranges[feat][transcript][1]/(end-start)), color=cmap(counter-1))
-        legend.append(mpatches.Patch(color=cmap(counter-1), label=transcript))
+            print(feat)
+            print((int(transcript[0])-start),
+                  (int(transcript[1])-start))
+            rect = patches.Rectangle(
+                (int(transcript[0])-start, -counter/500), height=1/500,
+                width=((int(transcript[1])-start) - (int(transcript[0])-start)), fill=True, color=cmap(counter-1))
+            ax.add_patch(rect)
+
+        legend.append(patches.Patch(color=cmap(counter-1), label=feat))
         counter += 1
     axes = plt.gca()
     axes.set_xlim([0, end-start])
