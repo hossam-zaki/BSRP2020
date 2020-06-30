@@ -42,7 +42,3 @@ def getRange():
             description = feature.attrib['description']
             rangesWithLabels[description] = ((begin, end))
     return rangesWithLabels
-
-
-if __name__ == "__main__":
-    print(getRange())

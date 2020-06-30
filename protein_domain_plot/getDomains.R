@@ -5,9 +5,7 @@ library("optparse")
 option_list = list(
     make_option(c("-s", "--start"), type="numeric", default=NULL, 
               help="dataset file name", metavar="character"),
-	make_option(c("-w", "--width"), type="numeric", default=NULL, 
-              help="output file name [default= %default]", metavar="character"),
-    make_option(c("-t", "--transcript"), default=NULL, 
+	make_option(c("-e", "--end"), type="numeric", default=NULL, 
               help="output file name [default= %default]", metavar="character")
 ); 
  
@@ -16,8 +14,13 @@ opt = parse_args(opt_parser);
 
 edbx <- filter(EnsDb.Hsapiens.v86, filter = ~ seq_name == "14")
 
-rng_tx <- IRanges(start = c(opt$start), width = c(opt$width),
-                  names = c(opt$transcript))
-rng_prt <- transcriptToProtein(rng_tx, edbx)
 
-rng_prt
+
+uni_rng <- IRanges(start = c(opt$start), end = c(opt$end),
+                   names = c("O15315"))
+
+## We have to specify that the IDs are Uniprot IDs
+uni_gnm <- proteinToGenome(uni_rng, edbx, idType = "uniprot_id")
+
+uni_gnm
+
