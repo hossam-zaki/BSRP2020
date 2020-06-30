@@ -39,7 +39,7 @@ def buildRanges():
 
 def buildPlotWithProtein():
     print('building plot...')
-    # plotBuilder.buildPlot()
+    plotBuilder.buildPlot()
     print("loading json...")
     startAndEndJson = json.load(urllib.request.urlopen(
         "https://dcc.icgc.org/api/v1/genes/ENSG00000182185"))  # lift this
@@ -50,7 +50,7 @@ def buildPlotWithProtein():
     cmap = plotBuilder.get_cmap(len(ranges)+1)
     counter = 1
     legend = []
-    fig, ax = plt.subplots(1)
+    ax = plt.gca()
     for feat in ranges:
         for transcript in ranges[feat]:
             print(feat)

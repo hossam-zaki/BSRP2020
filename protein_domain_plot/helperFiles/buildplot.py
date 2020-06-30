@@ -23,8 +23,10 @@ def get_cmap(n, name='hsv'):
 
 
 def buildPlot():
+    print("getting number of seqs...")
     numberOfSeqs = json.load(urllib.request.urlopen(
         "http://dcc.icgc.org/api/v1/genes/ENSG00000182185/mutations/count"))
+    print("getting start and end...")
     startAndEndJson = json.load(urllib.request.urlopen(
         "https://dcc.icgc.org/api/v1/genes/ENSG00000182185"))  # lift this
     start = lift(startAndEndJson['start'])
@@ -33,8 +35,8 @@ def buildPlot():
     to_nearest_hunderd = 101 - (numberOfSeqs % 100)
     placeInGenome = []
     numberOfOccurences = []
-    # numberOfSeqs+to_nearest_hunderd
-    for i in range(0, 200, 100):
+    #
+    for i in range(0, numberOfSeqs+to_nearest_hunderd, 100):
         try:
             json_file = json.load(urllib.request.urlopen(
                 f"https://dcc.icgc.org/api/v1/genes/ENSG00000182185/mutations?from={i}&size=100"))
