@@ -9,8 +9,7 @@ import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 import pandas as pd
 
-import helperFiles.buildplot as plotBuilder
-import helperFiles.getUniprotRanges as proteinRanges
+import buildPlot as plotBuilder
 
 
 def getProteinCodingRanges(start, end):
