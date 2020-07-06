@@ -13,12 +13,13 @@ end = plotBuilder.lift(startAndEndJson['end'])
 
 df = pd.read_csv('structural_variance_plot/merged_1.6.1.csv')
 
-df = df[(df['seqnames'] == 14) & (df['altchr'] == 14)]
+df = df[(df['seqnames'] == 14) | (df['altchr'] == 14)]
 
 df = df[(df['start'].between(start, end, inclusive=True)) |
         (df['altpos'].between(start, end, inclusive=True))]
 
 unique_ids = df['donor_unique_id'].unique()
+print(df)
 
 print(len(unique_ids))
 
