@@ -22,9 +22,9 @@ samples = {
                                   "POLB",
                                   "PARP1",
                                   "LIG3",
-                                  "XRCC"
+                                  "XRCC1"
                                   ],
-    "Homologous recombination": ["RAD51"
+    "Homologous recombination": ["RAD51",
                                  "RAD51B",
                                  "RAD51D",
                                  "DMC1",
@@ -197,16 +197,23 @@ samples = {
 
 labels = [*samples]
 forplot = []
-counter = 0
+#counter = 0
 for i in samples:
     for gene in samples[i]:
         print(gene)
-        if counter == 10:
-            break
-        forplot.append(parser.getNumOfSVs(gene))
+        toAdd = parser.getNumOfSVs(gene)
+        if(toAdd == None):
+            continue
+        forplot.append(toAdd)
+        #counter += 1
+    #     if counter == 20:
+    #         break
+    # if counter == 20:
+    #     break
 
 fig, ax1 = plt.subplots()
 ax1.set_title('Basic Plot')
-bp = ax1.boxplot(forplot, notch=0, sym='+', vert=1, whis=1.5, showmeans=True)
+print(forplot)
+bp = ax1.boxplot(forplot)
 
 plt.show()

@@ -12,20 +12,22 @@ import helperFiles.buildPlot as plotBuilder
 def getNumOfSVs(symb):
     df = pd.read_csv('structural_variance_plot/merged_1.6.1.csv')
     try:
-        getSymbol = json.load(urllib.request.urlopen(
+        symbolResponse = json.load(urllib.request.urlopen(
             f"https://rest.ensembl.org/lookup/symbol/homo_sapiens/{symb}?content-type=application/json;expand=1"))
-        ensembSymb = getSymbol['id']
-        startAndEndJson = json.load(urllib.request.urlopen(
-            f"https://dcc.icgc.org/api/v1/genes/{ensembSymb}"))  # lift this
-        chromosome = int(startAndEndJson['chromosome'])
-        if startAndEndJson['assembly_name'] == 'GRCh37':
-            start = plotBuilder.lift(startAndEndJson['start'], chromosome)
-            end = plotBuilder.lift(startAndEndJson['end'], chromosome)
+
+        chromosome = int(symbolResponse['seq_region_name'])
+        if symbolResponse['assembly_name'] == 'GRCh37':
+            start = plotBuilder.lift(symbolResponse['start'], chromosome)
+            end = plotBuilder.lift(symbolResponse['end'], chromosome)
         else:
-            start = startAndEndJson['start']
-            end = startAndEndJson['end']
-    except:
+            start = symbolResponse['start']
+            end = symbolResponse['end']
+    except Exception as e:
+        print(e)
+        print(
+            f"https://rest.ensembl.org/lookup/symbol/homo_sapiens/{symb}?content-type=application/json;expand=1")
         print(f"symb got fricked")
+        return
     df = df[(df['seqnames'] == chromosome) | (df['altchr'] == chromosome)]
 
     df = df[(df['start'].between(start, end, inclusive=True)) |
