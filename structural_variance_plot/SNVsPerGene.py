@@ -68,5 +68,125 @@ samples = {
                              ],
     "Repair of DNA-topoisomerase crosslinks": ["TDP1",
                                                "TDP2"
-                                               ]
+                                               ],
+    "Mismatch excision repair": ["MSH2"
+                                 "MSH3",
+                                 "MSH6",
+                                 "MLH1",
+                                 "PMS2",
+                                 "MSH4",
+                                 "MSH5",
+                                 "MLH3",
+                                 "PMS1",
+                                 "PMS2L3"
+                                 ],
+    "Nucleotide excision repair": ["RAD23B",
+                                   "CETN2",
+                                   "RAD23A",
+                                   "XPA",
+                                   "DDB1",
+                                   "DDB2",
+                                   "RPA1",
+                                   "RPA2",
+                                   "RPA3",
+                                   "TFIIH",
+                                   "ERCC3",
+                                   "ERCC2",
+                                   "GTF2H1",
+                                   "GTF2H2",
+                                   "GTF2H3",
+                                   "GTF2H4",
+                                   "GTF2H5",
+                                   "CDK7",
+                                   "CCNH",
+                                   "MNAT1",
+                                   "ERCC5",
+                                   "ERCC1",
+                                   "ERCC4",
+                                   "LIG1",
+                                   "ERCC8",
+                                   "ERCC6",
+                                   "UVSSA",
+                                   "XAB2",
+                                   "MMS19",
+                                   ],
+    "Fanconi anemia": ["FANCA"
+                       "FANCB"
+                       "FANCC"
+                       "BRCA2"
+                       "FANCD2"
+                       "FANCE"
+                       "FANCF"
+                       "FANCG"
+                       "FANCI"
+                       "BRIP1"
+                       "FANCL"
+                       "FANCM"
+                       "PALB2"
+                       "RAD51C"
+                       "BTBD12"
+                       "FAAP20"
+                       "FAAP24"
+                       ],
+    "Modulation of nucleotide pools": ["NUDT1",
+                                       "DUT",
+                                       "RRM2B",
+                                       ],
+    "DNA polymerases": ["POLB",
+                        "POLG",
+                        "POLD1",
+                        "POLE",
+                        "PCNA",
+                        "REV3L",
+                        "MAD2L2",
+                        "REV1L",
+                        "POLH",
+                        "POLI",
+                        "POLQ",
+                        "POLK",
+                        "POLL",
+                        "POLM",
+                        "POLN",
+                        ],
+    "Editing and processing nucleases": ["FEN1",
+                                         "FAN1",
+                                         "TREX1",
+                                         "TREX2",
+                                         "EXO1",
+                                         "APTX",
+                                         "SPO11",
+                                         "ENDOV",
+                                         ],
+    "Ubiquitination and modification": ["UBE2A"
+                                        "UBE2B"
+                                        "RAD18"
+                                        "SHPRH"
+                                        "HLTF"
+                                        "RNF168"
+                                        "SPRTN"
+                                        "RNF8"
+                                        "RNF4"
+                                        "UBE2V2"
+                                        "UBE2N"
+                                        ],
+    "Chromatin Structure and Modification": ["H2AFX",
+                                             "CHAF1A",
+                                             "SETMAR",
+                                             ],
+    "Other conserved DNA damage response genes": ["ATR",
+                                                  "ATRIP",
+                                                  "MDC1",
+                                                  "RAD1",
+                                                  "RAD9A",
+                                                  "HUS1",
+                                                  "RAD17",
+                                                  "CHEK1",
+                                                  "CHEK2",
+                                                  "TP53",
+                                                  "TP53BP1",
+                                                  "RIF1",
+                                                  "TOPBP1",
+                                                  "CLK2",
+                                                  "PER1",
+                                                  ]
 }
