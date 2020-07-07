@@ -209,9 +209,6 @@ for i in samples:
         if(toAdd == None):
             continue
         forplot.append(toAdd)
-    counter += 1
-    if counter == 2:
-        break
 
 # fig, ax1 = plt.subplots()
 # ax1.set_title('Basic Plot')
