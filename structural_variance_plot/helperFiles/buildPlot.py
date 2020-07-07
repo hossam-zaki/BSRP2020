@@ -12,8 +12,9 @@ from pyliftover import LiftOver
 lo = LiftOver('hg19', 'hg38')
 
 
-def lift(coord):
-    return lo.convert_coordinate('chr14', coord)[0][1]
+def lift(coord, chromosome):
+    chromo = 'chr' + str(chromosome)
+    return lo.convert_coordinate(chromo, coord)[0][1]
 
 
 def get_cmap(n, name='Accent'):

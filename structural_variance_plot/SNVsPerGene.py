@@ -1,3 +1,7 @@
+import matplotlib.pyplot as plt
+
+import parseCSV as parser
+
 samples = {
     "Nonhomologous end-joining": ["XRCC6",
                                   "XRCC5",
@@ -7,7 +11,7 @@ samples = {
                                   "DCLRE1C",
                                   "NHEJ1"],
 
-    "Microhomology end-joining": ["MRE11A",
+    "Microhomology end-joining": ["MRE11",
                                   "RAD50",
                                   "NBN",
                                   "RBBP8",
@@ -190,3 +194,19 @@ samples = {
                                                   "PER1",
                                                   ]
 }
+
+labels = [*samples]
+forplot = []
+counter = 0
+for i in samples:
+    for gene in samples[i]:
+        print(gene)
+        if counter == 10:
+            break
+        forplot.append(parser.getNumOfSVs(gene))
+
+fig, ax1 = plt.subplots()
+ax1.set_title('Basic Plot')
+bp = ax1.boxplot(forplot, notch=0, sym='+', vert=1, whis=1.5, showmeans=True)
+
+plt.show()
