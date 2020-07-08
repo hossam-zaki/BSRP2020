@@ -28,11 +28,8 @@ def getNumOfSVs(symb):
             f"https://rest.ensembl.org/lookup/symbol/homo_sapiens/{symb}?content-type=application/json;expand=1")
         print(f"symb got fricked")
         return
-    df = df[(df['seqnames'] == chromosome) | (df['altchr'] == chromosome)]
-
-    df = df[(df['start'].between(start, end, inclusive=True)) |
-            (df['altpos'].between(start, end, inclusive=True))]
-
+    df = df[(((df['seqnames'] == chromosome) & (df['start'].between(start, end, inclusive=True))) |
+             ((df['altchr'] == chromosome) & (df['altpos'].between(start, end, inclusive=True))))]
     unique_ids = df['donor_unique_id'].unique()
     forPlot = []
     for uniID in unique_ids:

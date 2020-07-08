@@ -38,7 +38,7 @@ samples = {
                                  "BRCA1",
                                  "SHFM1",
                                  "RAD50",
-                                 "MRE11A",
+                                 "MRE11",
                                  "NBN",
                                  "RBBP8",
                                  "MUS81",
@@ -204,11 +204,12 @@ counter = 0
 for i in samples:
     for gene in samples[i]:
         print(gene)
-        labels.append(gene)
         toAdd = parser.getNumOfSVs(gene)
         if(toAdd == None):
             continue
-        forplot.append(toAdd)
+        else:
+            labels.append(gene)
+            forplot.append(toAdd)
 
 # fig, ax1 = plt.subplots()
 # ax1.set_title('Basic Plot')
