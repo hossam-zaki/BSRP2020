@@ -30,12 +30,17 @@ def getNumOfSVs(symb):
         return
     df = df[(((df['seqnames'] == chromosome) & (df['start'].between(start, end, inclusive=True))) |
              ((df['altchr'] == chromosome) & (df['altpos'].between(start, end, inclusive=True))))]
+    # more options can be specified also
+
     unique_ids = df['donor_unique_id'].unique()
     forPlot = []
-    for uniID in unique_ids:
-        place = df[(df['donor_unique_id'] == uniID)]
-        forPlot.append(len(place.index))
-    return forPlot
+    # for uniID in unique_ids:
+    #     place = df[(df['donor_unique_id'] == uniID)]
+    #     print(place)
+    #     print(len(place.index))
+    #     quit()
+    #     forPlot.append(len(place.index))
+    return (len(df.index))
 
 
 # fig, ax1 = plt.subplots()
@@ -122,3 +127,6 @@ def getNumOfSVs(symb):
 #          size='x-small')
 
 # plt.show()
+
+if __name__ == "__main__":
+    print(getNumOfSVs('RAD51B'))
