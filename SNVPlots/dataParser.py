@@ -269,6 +269,20 @@ def getKeyword(code):
     return keyword['hits'][0]['id']
 
 
+def getEnsemblId(symb):
+    symbolResponse = json.load(urllib.request.urlopen(
+        f"https://rest.ensembl.org/lookup/symbol/homo_sapiens/{symb}?content-type=application/json;expand=1"))
+
+    return (symbolResponse['seq_region_name'])
+
+
+def mutationsInDonorCount(id):
+    count = json.load(urllib.request.urlopen(
+        f"https://dcc.icgc.org/api/v1/donors/{id}/mutations/count?filters=%7B%7D"))
+
+    return count
+
+
 def range_subset(range1, range2):
     """Whether range1 is a subset of range2."""
     if not range1:
