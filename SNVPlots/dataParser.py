@@ -202,9 +202,14 @@ samples = {
 }
 
 
-def getNumOfSVs(symb):
+def getSNVsPerPatient(symb):
     df = pd.read_csv('../merged_1.6.1.csv')
     try:
+        patients = df['donor_unique_id'].unique()
+        for patient in patients:
+
+            patientResponse = json.load(urllib.request.urlopen(
+                f"https://dcc.icgc.org/api/v1/keywords?q=CPCG0128&filters=%7B%7D&from=1&size=10"))
         symbolResponse = json.load(urllib.request.urlopen(
             f"https://rest.ensembl.org/lookup/symbol/homo_sapiens/{symb}?content-type=application/json;expand=1"))
 
@@ -256,3 +261,20 @@ def getNumOfDonors(symb):
     unique_ids = df['donor_unique_id'].unique()
     print((len(unique_ids)))
     return (len(unique_ids))
+
+
+def getKeyword(code):
+    keyword = json.load(urllib.request.urlopen(
+        f"https://dcc.icgc.org/api/v1/keywords?q={code}&filters=%7B%7D&from=1&size=10"))
+    return keyword['hits'][0]['id']
+
+
+def range_subset(range1, range2):
+    """Whether range1 is a subset of range2."""
+    if not range1:
+        return True  # empty range is subset of anything
+    if not range2:
+        return False  # non-empty range can't be subset of empty range
+    if len(range1) > 1 and range1.step % range2.step:
+        return False  # must have a single value or integer multiple step
+    return range1.start in range2 and range1[-1] in range2
