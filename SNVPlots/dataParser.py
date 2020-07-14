@@ -1,4 +1,5 @@
 import json
+import os
 import pickle
 import urllib
 
@@ -305,13 +306,15 @@ def getStartAndEnd(symb):
 
 
 def buildRangeDict():
+    if(os.path.isfile("obj/rangeDict.pkl")):
+        return load_obj("rangeDict")
     forReturn = {}
-
     for i in samples:
         for j in samples[i]:
             data = getStartAndEnd(j)
             if data != None:
                 forReturn[j] = data
+    save_obj(forReturn, "rangeDict")
     return forReturn
 
 
