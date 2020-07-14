@@ -1,4 +1,5 @@
 import json
+import pickle
 import urllib
 
 import matplotlib.pyplot as plt
@@ -281,6 +282,44 @@ def mutationsInDonorCount(id):
         f"https://dcc.icgc.org/api/v1/donors/{id}/mutations/count?filters=%7B%7D"))
 
     return count
+
+
+def getStartAndEnd(symb):
+    try:
+        symbolResponse = json.load(urllib.request.urlopen(
+            f"https://rest.ensembl.org/lookup/symbol/homo_sapiens/{symb}?content-type=application/json;expand=1"))
+        chromosome = int(symbolResponse['seq_region_name'])
+        if symbolResponse['assembly_name'] == 'GRCh37':
+            start = plotBuilder.lift(symbolResponse['start'], chromosome)
+            end = plotBuilder.lift(symbolResponse['end'], chromosome)
+        else:
+            start = symbolResponse['start']
+            end = symbolResponse['end']
+        return [chromosome, range(start, end)]
+    except:
+        print(symb)
+        return None
+
+
+def buildRangeDict():
+    forReturn = {}
+
+    for i in samples:
+        for j in samples[i]:
+            data = getStartAndEnd(j)
+            if data != None:
+                forReturn[j] = data
+    return forReturn
+
+
+def save_obj(obj, name):
+    with open('obj/' + name + '.pkl', 'wb') as f:
+        pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
+
+
+def load_obj(name):
+    with open('obj/' + name + '.pkl', 'rb') as f:
+        return pickle.load(f)
 
 
 def range_subset(range1, range2):
