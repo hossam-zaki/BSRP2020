@@ -14,12 +14,9 @@ if(os.path.isfile("obj/GenewithDonorsWithSVsInGene.pkl")):
     results = dataParser.load_obj("GenewithDonorsWithSVsInGene")
 else:
     results = {}
-
 for patient in patients:
     match = re.match('.*::(.+)', patient)
     donorid = dataParser.getKeyword(match[1])
-    if donorid == None:
-        continue
     if donorid in results:
         continue
     print(donorid)
@@ -34,10 +31,9 @@ for patient in patients:
                 chromosome = j['chromosome']
                 mutRange = range(j['start'], j['end'])
                 for gene in rangeDict:
-                    if rangeDict[gene][0] == chromosome:
+                    if str(rangeDict[gene][0]) == str(chromosome):
                         if dataParser.range_subset(mutRange, rangeDict[gene][1]):
                             if gene not in results:
-                                results[gene] = [donorid]
-                            else:
-                                results[gene].append(donorid)
+                                results[gene] = set()
+                            results[gene].add(donorid)
     dataParser.save_obj(results, "GenewithDonorsWithSVsInGene")

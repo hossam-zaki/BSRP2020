@@ -271,7 +271,12 @@ def getKeyword(code):
             f"https://dcc.icgc.org/api/v1/keywords?q={code}&filters=%7B%7D&from=1&size=10"))
         return keyword['hits'][0]['id']
     except:
-        return None
+        tcga = json.load(urllib.request.urlopen(
+            f"https://api.gdc.cancer.gov/cases/{code}"))
+        tcgaID = tcga['data']['submitter_id']
+        keyword = json.load(urllib.request.urlopen(
+            f"https://dcc.icgc.org/api/v1/keywords?q={tcgaID}&filters=%7B%7D&from=1&size=10"))
+        return keyword['hits'][0]['id']
 
 
 def getEnsemblId(symb):
