@@ -13,6 +13,8 @@ results = {}
 for patient in patients:
     match = re.match('.*::(.+)', patient)
     donorid = dataParser.getKeyword(match[1])
+    if donorid == None:
+        continue
     print(donorid)
     mutsinDonor = dataParser.mutationsInDonorCount(donorid)
     to_nearest_hunderd = 101 - (mutsinDonor % 100)
