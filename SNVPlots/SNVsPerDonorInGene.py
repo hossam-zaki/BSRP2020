@@ -1,4 +1,5 @@
 import json
+import os
 import re
 import urllib
 
@@ -9,11 +10,17 @@ import dataParser
 df = pd.read_csv('../merged_1.6.1.csv')
 patients = df['donor_unique_id'].unique()
 rangeDict = dataParser.buildRangeDict()
-results = {}
+if(os.path.isfile("obj/GenewithDonorsWithSVsInGene.pkl")):
+    results = dataParser.load_obj("GenewithDonorsWithSVsInGene")
+else:
+    results = {}
+
 for patient in patients:
     match = re.match('.*::(.+)', patient)
     donorid = dataParser.getKeyword(match[1])
     if donorid == None:
+        continue
+    if donorid in results:
         continue
     print(donorid)
     mutsinDonor = dataParser.mutationsInDonorCount(donorid)
@@ -33,4 +40,4 @@ for patient in patients:
                                 results[gene] = [donorid]
                             else:
                                 results[gene].append(donorid)
-dataParser.save_obj(results, "GenewithDonorsWithSVsInGene")
+    dataParser.save_obj(results, "GenewithDonorsWithSVsInGene")
