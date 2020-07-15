@@ -266,6 +266,7 @@ def getNumOfDonors(symb):
 
 
 def getKeyword(code):
+    print(code)
     try:
         keyword = json.load(urllib.request.urlopen(
             f"https://dcc.icgc.org/api/v1/keywords?q={code}&filters=%7B%7D&from=1&size=10"))
