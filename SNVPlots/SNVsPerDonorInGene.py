@@ -14,11 +14,11 @@ if(os.path.isfile("obj/completedDonors.pkl")):
     completed = dataParser.load_obj("completedDonors")
 else:
     completed = set()
-if(os.path.isfile("obj/GenewithDonorsWithSVsInGene.pkl")):
-    results = dataParser.load_obj("GenewithDonorsWithSVsInGene")
-else:
-    results = {}
 for patient in reversed(patients):
+    if(os.path.isfile("obj/GenewithDonorsWithSVsInGene.pkl")):
+        results = dataParser.load_obj("GenewithDonorsWithSVsInGene")
+    else:
+        results = {}
     match = re.match('.*::(.+)', patient)
     donorid = dataParser.getKeyword(match[1])
     if donorid in completed:
