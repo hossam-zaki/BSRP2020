@@ -41,6 +41,7 @@ for patient in reversed(patients):
                                 if gene not in results:
                                     results[gene] = set()
                                 results[gene].add(donorid)
+        completed = dataParser.load_obj("completedDonors")
         completed.add(donorid)
         dataParser.save_obj(completed, "completedDonors")
         dataParser.save_obj(results, "GenewithDonorsWithSVsInGene")
