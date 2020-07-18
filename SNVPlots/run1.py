@@ -15,6 +15,7 @@ if(os.path.isfile("obj/completedDonors1.pkl")):
 else:
     completed = set()
 size = int(len(patients)/4)
+
 for patient in patients[size+1: size+size+1]:
     if(os.path.isfile("obj/GenewithDonorsWithSVsInGene1.pkl")):
         results = dataParser.load_obj("GenewithDonorsWithSVsInGene1")

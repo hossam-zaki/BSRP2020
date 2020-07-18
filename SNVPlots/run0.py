@@ -7,14 +7,14 @@ import pandas as pd
 
 import dataParser
 
-df = pd.read_csv('../merged_1.6.1.csv')
-patients = df['donor_unique_id'].unique()
 rangeDict = dataParser.buildRangeDict()
 if(os.path.isfile("obj/completedDonors0.pkl")):
     completed = dataParser.load_obj("completedDonors0")
 else:
     completed = set()
+patients = dataParser.load_obj("patients")
 size = int(len(patients)/4)
+
 for patient in patients[0:size+1]:
     if(os.path.isfile("obj/GenewithDonorsWithSVsInGene0.pkl")):
         results = dataParser.load_obj("GenewithDonorsWithSVsInGene0")

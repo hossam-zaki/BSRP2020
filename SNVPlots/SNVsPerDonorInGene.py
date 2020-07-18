@@ -14,6 +14,7 @@ if(os.path.isfile("obj/completedDonors.pkl")):
     completed = dataParser.load_obj("completedDonors")
 else:
     completed = set()
+patients = dataParser.load_obj("patients")
 for patient in reversed(patients):
     if(os.path.isfile("obj/GenewithDonorsWithSVsInGene.pkl")):
         results = dataParser.load_obj("GenewithDonorsWithSVsInGene")

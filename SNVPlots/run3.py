@@ -14,6 +14,7 @@ if(os.path.isfile("obj/completedDonors3.pkl")):
     completed = dataParser.load_obj("completedDonors3")
 else:
     completed = set()
+
 size = int(len(patients)/4)
 
 for patient in patients[size + size + size + 1: int(len(patients))]:
