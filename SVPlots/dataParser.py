@@ -224,9 +224,6 @@ def getNumOfSVs(symb):
     df = df[(((df['seqnames'] == chromosome) & (df['start'].between(start, end, inclusive=True))) |
              ((df['altchr'] == chromosome) & (df['altpos'].between(start, end, inclusive=True))))]
     # more options can be specified also
-
-    unique_ids = df['donor_unique_id'].unique()
-    forPlot = []
     return (len(df.index))
 
 
