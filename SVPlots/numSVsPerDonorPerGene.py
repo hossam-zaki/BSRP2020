@@ -13,22 +13,16 @@ import helperFiles.buildPlot as plotBuilder
 labels = []
 forplot = []
 counter = 0
+samples = parser.samples
 for i in samples:
     for gene in samples[i]:
         print(gene)
-        toAdd = parser.getNumOfSVs(gene)
+        toAdd = parser.getNumOfSVsPerDonor(gene)
         if(toAdd == None):
             continue
         else:
             labels.append(gene)
             forplot.append(toAdd)
-
-# fig, ax1 = plt.subplots()
-# ax1.set_title('Basic Plot')
-# print(forplot)
-# bp = ax1.boxplot(forplot)
-
-# plt.show()
 
 
 fig, ax1 = plt.subplots(figsize=(10, 2))

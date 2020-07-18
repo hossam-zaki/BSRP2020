@@ -202,6 +202,35 @@ samples = {
 }
 
 
+def getNumOfSVsPerDonor(symb):
+    df = pd.read_csv('../merged_1.6.1.csv')
+    try:
+        symbolResponse = json.load(urllib.request.urlopen(
+            f"https://rest.ensembl.org/lookup/symbol/homo_sapiens/{symb}?content-type=application/json;expand=1"))
+
+        chromosome = int(symbolResponse['seq_region_name'])
+        if symbolResponse['assembly_name'] == 'GRCh37':
+            start = plotBuilder.lift(symbolResponse['start'], chromosome)
+            end = plotBuilder.lift(symbolResponse['end'], chromosome)
+        else:
+            start = symbolResponse['start']
+            end = symbolResponse['end']
+    except Exception as e:
+        print(e)
+        print(
+            f"https://rest.ensembl.org/lookup/symbol/homo_sapiens/{symb}?content-type=application/json;expand=1")
+        print(f"symb got fricked")
+        return
+    df = df[(((df['seqnames'] == chromosome) & (df['start'].between(start, end, inclusive=True))) |
+             ((df['altchr'] == chromosome) & (df['altpos'].between(start, end, inclusive=True))))]
+    unique_ids = df['donor_unique_id'].unique()
+    forPlot = []
+    for uniID in unique_ids:
+        place = df[(df['donor_unique_id'] == uniID)]
+        forPlot.append(len(place.index))
+    return forPlot
+
+
 def getNumOfSVs(symb):
     df = pd.read_csv('../merged_1.6.1.csv')
     try:
