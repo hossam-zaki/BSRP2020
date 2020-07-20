@@ -15,7 +15,7 @@ data = []
 
 # for label in parser.samples:
 #     for gene in parser.samples[label]:
-donors = parser.getDonors('RPA2')
+donors = parser.getDonors('DDB2')
 for donor in donors:
     donorDF = df[(df['donor_unique_id'] == donor)]
     data.append(len(donorDF.index))
