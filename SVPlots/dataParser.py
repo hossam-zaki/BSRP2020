@@ -79,7 +79,7 @@ samples = {
     "Repair of DNA-topoisomerase crosslinks": ["TDP1",
                                                "TDP2"
                                                ],
-    "Mismatch excision repair": ["MSH2"
+    "Mismatch excision repair": ["MSH2",
                                  "MSH3",
                                  "MSH6",
                                  "MLH1",
@@ -302,11 +302,14 @@ def getDonors(symb):
         print(
             f"https://rest.ensembl.org/lookup/symbol/homo_sapiens/{symb}?content-type=application/json;expand=1")
         print(f"symb got fricked")
-        return
+        return []
     df = df[(((df['seqnames'] == chromosome) & (df['start'].between(start, end, inclusive=True))) |
              ((df['altchr'] == chromosome) & (df['altpos'].between(start, end, inclusive=True))))]
     # more options can be specified also
 
     unique_ids = df['donor_unique_id'].unique()
-    print((len(unique_ids)))
     return (unique_ids)
+
+
+def diff(li1, li2):
+    return (list(set(li1) - set(li2)))

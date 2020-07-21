@@ -11,31 +11,34 @@ import helperFiles.buildPlot as plotBuilder
 
 df = pd.read_csv('../merged_1.6.1.csv')
 
-forplot = []
-labels = []
+all_donors = df['donor_unique_id'].unique()
 
-counter = 0
-for label in parser.samples:
-    for gene in parser.samples[label]:
-        print(gene)
-        donors = parser.getDonors(gene)
-        if len(donors) == 0:
-            continue
-        forplot.append([])
-        for donor in donors:
-            donorDF = df[(df['donor_unique_id'] == donor)]
-            forplot[counter].append(len(donorDF.index))
-        labels.append(gene)
-        counter += 1
-        print(forplot)
+donorsInRad = parser.getDonors('TFIIH')
 
-print(len(forplot))
-print(len(labels))
+diffDonors = parser.diff(all_donors, donorsInRad)
+
+dataRad = []
+
+dataNotRad = []
+
+for donor in donorsInRad:
+    donorDF = df[(df['donor_unique_id'] == donor)]
+    dataRad.append(len(donorDF.index))
+    print(dataRad)
+
+for donor in diffDonors:
+    donorDF = df[(df['donor_unique_id'] == donor)]
+    dataNotRad.append(len(donorDF.index))
+    print(dataNotRad)
+
+data = [dataRad, dataNotRad]
+labels = ['RAD', 'NotRad']
+
 fig, ax1 = plt.subplots(figsize=(10, 2))
 fig.canvas.set_window_title('A Boxplot Example')
 fig.subplots_adjust(left=0.075, right=0.95, top=0.9, bottom=0.25)
 
-bp = ax1.boxplot(forplot, notch=0, sym='+', vert=1, whis=1.5, showmeans=True)
+bp = ax1.boxplot(data, notch=0, sym='+', vert=1, whis=1.5, showmeans=True)
 plt.setp(bp['boxes'], color='black')
 plt.setp(bp['whiskers'], color='black')
 plt.setp(bp['fliers'], color='red', marker='+')
@@ -54,7 +57,7 @@ ax1.set_ylabel('Value')
 
 # Now fill the boxes with desired colors
 box_colors = ['darkkhaki', 'royalblue']
-num_boxes = len(forplot)
+num_boxes = len(data)
 medians = np.empty(num_boxes)
 for i in range(num_boxes):
     box = bp['boxes'][i]
@@ -77,13 +80,13 @@ for i in range(num_boxes):
     medians[i] = medianY[0]
     # Finally, overplot the sample averages, with horizontal alignment
     # in the center of each box
-    ax1.plot(np.average(med.get_xdata()), np.average(forplot[i]),
+    ax1.plot(np.average(med.get_xdata()), np.average(data[i]),
              color='w', marker='*', markeredgecolor='k')
 
 # Set the axes ranges and axes labels
 ax1.set_xlim(0.5, num_boxes + 0.5)
-top = 1000
-bottom = 100
+top = 2000
+bottom = 0
 ax1.set_ylim(bottom, top)
 ax1.set_xticklabels(labels,
                     rotation=90, fontsize=8)
