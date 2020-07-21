@@ -11,28 +11,31 @@ import helperFiles.buildPlot as plotBuilder
 
 df = pd.read_csv('../merged_1.6.1.csv')
 
-all_donors = df['donor_unique_id'].unique()
+data = []
+labels = []
+inputs = ['BRCA1', 'FANCA', 'NBN', 'POLQ', 'PRKDC', 'RAD51B']
 
-donorsInRad = parser.getDonors('TFIIH')
+for gene in inputs:
+    print(gene)
+    all_donors = df['donor_unique_id'].unique()
+    donorsInGene = parser.getDonors(gene)
+    diffDonors = parser.diff(all_donors, donorsInGene)
 
-diffDonors = parser.diff(all_donors, donorsInRad)
+    affected = []
+    notaffected = []
 
-dataRad = []
+    for donor in donorsInGene:
+        donorDF = df[(df['donor_unique_id'] == donor)]
+        affected.append(len(donorDF.index))
 
-dataNotRad = []
+    for donor in diffDonors:
+        donorDF = df[(df['donor_unique_id'] == donor)]
+        notaffected.append(len(donorDF.index))
 
-for donor in donorsInRad:
-    donorDF = df[(df['donor_unique_id'] == donor)]
-    dataRad.append(len(donorDF.index))
-    print(dataRad)
-
-for donor in diffDonors:
-    donorDF = df[(df['donor_unique_id'] == donor)]
-    dataNotRad.append(len(donorDF.index))
-    print(dataNotRad)
-
-data = [dataRad, dataNotRad]
-labels = ['RAD', 'NotRad']
+    data.append(notaffected)
+    data.append(affected)
+    labels.append(gene)
+    labels.append("Regular " + gene)
 
 fig, ax1 = plt.subplots(figsize=(10, 2))
 fig.canvas.set_window_title('A Boxplot Example')
@@ -51,9 +54,9 @@ ax1.yaxis.grid(True, linestyle='-', which='major', color='lightgrey',
 # Hide these grid behind plot objects
 ax1.set_axisbelow(True)
 ax1.set_title(
-    'Comparison of IID Bootstrap Resampling Across Five Distributions')
-ax1.set_xlabel('Distribution')
-ax1.set_ylabel('Value')
+    'Number of SVs Per Donor In Regular Gene vs Mutated')
+ax1.set_xlabel('Gene')
+ax1.set_ylabel('Number of SVs Per Donor')
 
 # Now fill the boxes with desired colors
 box_colors = ['darkkhaki', 'royalblue']
@@ -106,10 +109,10 @@ for tick, label in zip(range(num_boxes), ax1.get_xticklabels()):
              weight=weights[k], color=box_colors[k])
 
 # Finally, add a basic legend
-fig.text(0.80, 0.08, f'1 Random Numbers',
+fig.text(0.80, 0.08, f'Regular Gene',
          backgroundcolor=box_colors[0], color='black', weight='roman',
          size='x-small')
-fig.text(0.80, 0.045, 'IID Bootstrap Resample',
+fig.text(0.80, 0.045, 'Mutated Gene',
          backgroundcolor=box_colors[1],
          color='white', weight='roman', size='x-small')
 fig.text(0.80, 0.015, '*', color='white', backgroundcolor='silver',
