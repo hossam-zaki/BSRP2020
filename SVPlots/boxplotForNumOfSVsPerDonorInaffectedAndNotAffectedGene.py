@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from matplotlib.patches import Polygon
+from scipy import stats
 
 import dataParser as parser
 import helperFiles.buildPlot as plotBuilder
@@ -13,7 +14,8 @@ df = pd.read_csv('../merged_1.6.1.csv')
 
 data = []
 labels = []
-inputs = ['BRCA1', 'FANCA', 'NBN', 'POLQ', 'PRKDC', 'RAD51B']
+#
+inputs = ['RAD51B', 'FANCA', 'NBN', 'POLQ', 'PRKDC', 'BRCA1']
 
 for gene in inputs:
     print(gene)
@@ -34,8 +36,9 @@ for gene in inputs:
 
     data.append(notaffected)
     data.append(affected)
-    labels.append(gene)
     labels.append("Regular " + gene)
+    labels.append(gene)
+    print(stats.ttest_ind(affected, notaffected))
 
 fig, ax1 = plt.subplots(figsize=(10, 2))
 fig.canvas.set_window_title('A Boxplot Example')
