@@ -14,7 +14,7 @@ df = pd.read_csv('../merged_1.6.1.csv')
 
 data = []
 labels = []
-#
+# inputs = ['RAD51B']
 inputs = ['RAD51B', 'FANCA', 'NBN', 'POLQ', 'PRKDC', 'BRCA1']
 
 for gene in inputs:
