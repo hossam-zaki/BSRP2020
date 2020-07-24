@@ -13,19 +13,22 @@ import helperFiles.buildPlot as plotBuilder
 
 df = pd.read_csv('../merged_1.6.1.csv')
 
-data = []
-labels = []
-# inputs = ['RAD51B']
-inputs = set()
-samples = parser.samples
-for category in samples:
-    for gene in samples[category]:
-        inputs.add(gene)
-print(inputs)
+# data = []
+# labels = set
+# # inputs = ['RAD51B']
+# inputs = set()
+# samples = parser.samples
+# for category in samples:
+#     for gene in samples[category]:
+#         labels.add(gene)
+# print(inputs)
 
-pValues = load_obj('pvalues')
-data = load_obj('data')
+pValues = parser.load_obj('pvalues')
+data = parser.load_obj('data')
 
+for i in data:
+    print(len(i) == 0)
+quit()
 fig, ax1 = plt.subplots(figsize=(15, 5))
 fig.canvas.set_window_title('A Boxplot Example')
 fig.subplots_adjust(left=0.075, right=0.95, top=0.9, bottom=0.25)
@@ -80,8 +83,7 @@ ax1.set_xlim(0.5, num_boxes + 0.5)
 top = 2000
 bottom = 0
 ax1.set_ylim(bottom, top)
-ax1.set_xticklabels(labels,
-                    rotation=90, fontsize=8)
+
 
 # Due to the Y-axis scale being different across samples, it can be
 # hard to compare differences in medians across the samples. Add upper
