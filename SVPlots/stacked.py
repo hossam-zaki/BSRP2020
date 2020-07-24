@@ -19,7 +19,7 @@ def autolabel(rects):
                     xy=(rect.get_x() + rect.get_width() / 2, height),
                     xytext=(0, 3),  # 3 points vertical offset
                     textcoords="offset points",
-                    ha='center', va='center', color="black", fontsize=6)
+                    ha='center', va='center', color="black", fontsize=6, fontweight="bold")
 
 
 samples = parser.samples
