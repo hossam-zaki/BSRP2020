@@ -284,6 +284,13 @@ def getNumOfDonors(symb):
     print((len(unique_ids)))
     return (len(unique_ids))
 
+def checkValid(symb):
+    try:
+        symbolResponse = json.load(urllib.request.urlopen(
+            f"https://rest.ensembl.org/lookup/symbol/homo_sapiens/{symb}?content-type=application/json;expand=1"))
+        return True
+    except:
+        return False
 
 def getDonors(symb):
     df = pd.read_csv('../merged_1.6.1.csv')
