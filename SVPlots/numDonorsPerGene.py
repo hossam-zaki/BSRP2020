@@ -7,16 +7,20 @@ import dataParser as parser
 samples = parser.samples
 
 # labels = [*samples]
+s = set()
 labels = []
 forplot = []
 counter = 0
 for i in samples:
     for gene in samples[i]:
+        if(gene in s):
+            continue
         print(gene)
         toAdd = parser.getNumOfDonors(gene)
         if(toAdd == None):
             continue
         else:
+            s.add(gene)
             labels.append(gene)
             forplot.append(toAdd)
 
