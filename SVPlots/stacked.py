@@ -19,7 +19,7 @@ def autolabel(rects):
                     xy=(rect.get_x() + rect.get_width() / 2, height),
                     xytext=(0, 3),  # 3 points vertical offset
                     textcoords="offset points",
-                    ha='center', va='center', color="white", fontsize=16, fontweight="bold")
+                    ha='center', va='center', color="black", fontsize=7, fontweight="bold")
 
 
 samples = parser.samples
@@ -56,16 +56,18 @@ for i in samples:
             numSVs.append(toAdd)
 
 fig, ax = plt.subplots(figsize=(15, 10))
-ax.set_title('Number of Donors with SVs in Genes and ')
+ax.set_title('Number of Donors with SVs in Genes and Number of SVs in Genes')
 x = np.arange(len(labels))
 rects = ax.bar(x, numDonors)
 rects1 = ax.bar(x, numSVs, bottom=numDonors)
-ax.set_ylabel('Number of Total SVs')
-ax.set_title('Number of SV in Genes')
+ax.set_ylabel('Number of Donors/SVs')
+ax.set_xlabel('Genes')
+ax.set_title('Number of Donors with SVs in Genes and Number of SVs in Genes')
 ax.set_xticks(x)
 plt.xticks(rotation=90)
 ax.set_xticklabels(labels)
 plt.legend((rects[0], rects1[0]),
            ('Number of Donors With SV in Gene', 'Number of SVs in Gene'))
-
+autolabel(rects)
+autolabel(rects1)
 plt.show()
