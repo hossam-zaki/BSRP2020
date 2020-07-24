@@ -55,38 +55,38 @@ for i in samples:
         else:
             s.add(gene)
             inputs.append(gene)
+            labels.append(gene)
 
-pValues = []
-for gene in inputs:
-    print(gene)
-    all_donors = df['donor_unique_id'].unique()
-    donorsInGene = parser.getDonors(gene)
-    diffDonors = parser.diff(all_donors, donorsInGene)
+# pValues = []
+# for gene in inputs:
+#     print(gene)
+#     all_donors = df['donor_unique_id'].unique()
+#     donorsInGene = parser.getDonors(gene)
+#     diffDonors = parser.diff(all_donors, donorsInGene)
 
-    affected = []
-    notaffected = []
+#     affected = []
+#     notaffected = []
 
-    for donor in donorsInGene:
-        donorDF = df[(df['donor_unique_id'] == donor)]
-        affected.append(len(donorDF.index))
+#     for donor in donorsInGene:
+#         donorDF = df[(df['donor_unique_id'] == donor)]
+#         affected.append(len(donorDF.index))
 
-    for donor in diffDonors:
-        donorDF = df[(df['donor_unique_id'] == donor)]
-        notaffected.append(len(donorDF.index))
-    if(len(affected) == 0):
-        affected.append(0)
-    if(len(notaffected) == 0):
-        notaffected.append(0)
-    data.append(notaffected)
-    data.append(affected)
-    labels.append("WT " + gene)
-    labels.append("MUT " + gene)
-    value = stats.ttest_ind(affected, notaffected)[1]
-    pValues.append(value)
-    print(value)
+#     for donor in diffDonors:
+#         donorDF = df[(df['donor_unique_id'] == donor)]
+#         notaffected.append(len(donorDF.index))
+#     if(len(affected) == 0):
+#         affected.append(0)
+#     if(len(notaffected) == 0):
+#         notaffected.append(0)
+#     data.append(notaffected)
+#     data.append(affected)
+#     labels.append(gene)
+#     value = stats.ttest_ind(affected, notaffected)[1]
+#     pValues.append(value)
+#     print(value)
 
-parser.save_obj(pValues, 'pvalues')
-parser.save_obj(data, 'data')
+pValues = parser.load_obj('pvalues')
+data = parser.load_obj('data')
 
 position = []
 counter = 1

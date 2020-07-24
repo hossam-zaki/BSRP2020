@@ -14,8 +14,9 @@ import helperFiles.getUniprotRanges as proteinRanges
 
 
 def getProteinCodingRanges(start, end):
+    print("yo")
     result = subprocess.run(
-        ["Rscript", "protein_domain_plot/getDomains.R", "--start", start, "--end", end], stdout=subprocess.PIPE, text=True)
+        ["Rscript", "getDomains.R", "--start", start, "--end", end], stdout=subprocess.PIPE, text=True)
     str = result.stdout.split('\n')
     toReturn = set()
     for sub in str:
@@ -29,6 +30,7 @@ def buildRanges():
     transcriptAndRange = {}
     ranges = proteinRanges.getRange()
     for feat in ranges:
+        print("yee")
         print(ranges[feat])
         result = getProteinCodingRanges(ranges[feat][0], ranges[feat][1])
         transcriptAndRange[feat] = []
@@ -39,7 +41,7 @@ def buildRanges():
 
 def buildPlotWithProtein():
     print('building plot...')
-    plotBuilder.buildPlot()
+    # plotBuilder.buildPlot()
     print("loading json...")
     startAndEndJson = json.load(urllib.request.urlopen(
         "https://dcc.icgc.org/api/v1/genes/ENSG00000182185"))  # lift this
@@ -47,6 +49,8 @@ def buildPlotWithProtein():
     end = plotBuilder.lift(startAndEndJson['end'])
     print(start)
     ranges = buildRanges()
+    print(ranges)
+    quit()
     cmap = plotBuilder.get_cmap(len(ranges)+1)
     counter = 1
     legend = []
