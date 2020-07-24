@@ -53,5 +53,7 @@ ax.set_title('Number of SV in Genes')
 ax.set_xticks(x)
 plt.xticks(rotation=90)
 ax.set_xticklabels(labels)
-plt.legend((rects[0], rects[0]),
+plt.legend((rects[0], rects1[0]),
            ('Number of Donors With SV in Gene', 'Number of SVs in Gene'))
+
+plt.show()
