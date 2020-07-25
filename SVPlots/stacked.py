@@ -32,7 +32,7 @@ for i in samples:
         if(gene in s):
             continue
         print(gene)
-        toAdd = parser.getNumOfDonors(gene)
+        toAdd = parser.getNumOfDonorsWithBuckets(gene)
         if(toAdd == None):
             continue
         else:

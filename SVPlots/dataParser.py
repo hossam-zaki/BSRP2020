@@ -284,6 +284,7 @@ def getNumOfDonors(symb):
     print((len(unique_ids)))
     return (len(unique_ids))
 
+
 def checkValid(symb):
     try:
         symbolResponse = json.load(urllib.request.urlopen(
@@ -291,6 +292,7 @@ def checkValid(symb):
         return True
     except:
         return False
+
 
 def getDonors(symb):
     df = pd.read_csv('../merged_1.6.1.csv')
@@ -357,3 +359,29 @@ def save_obj(obj, name):
 def load_obj(name):
     with open('obj/' + name + '.pkl', 'rb') as f:
         return pickle.load(f)
+
+
+def getNumOfDonorsWithBuckets(symb):
+    df = pd.read_csv('../merged_1.6.1.csv')
+    try:
+        symbolResponse = json.load(urllib.request.urlopen(
+            f"https://rest.ensembl.org/lookup/symbol/homo_sapiens/{symb}?content-type=application/json;expand=1"))
+
+        chromosome = int(symbolResponse['seq_region_name'])
+        if symbolResponse['assembly_name'] == 'GRCh37':
+            start = plotBuilder.lift(symbolResponse['start'], chromosome)
+            end = plotBuilder.lift(symbolResponse['end'], chromosome)
+        else:
+            start = symbolResponse['start']
+            end = symbolResponse['end']
+    except Exception as e:
+        print(e)
+        print(
+            f"https://rest.ensembl.org/lookup/symbol/homo_sapiens/{symb}?content-type=application/json;expand=1")
+        print(f"symb got fricked")
+        return
+    df = df[(((df['seqnames'] == chromosome) & (df['start'].between(start, end, inclusive=True))) |
+             ((df['altchr'] == chromosome) & (df['altpos'].between(start, end, inclusive=True))))]
+    # more options can be specified also
+
+    return df['donor_unique_id'].value_counts().tolist()
