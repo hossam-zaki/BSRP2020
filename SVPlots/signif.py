@@ -2,7 +2,7 @@
 import json
 import pickle
 import urllib
-from statistics import median
+from statistics import mean, median
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -27,12 +27,11 @@ def autolabel(rects, significant):
             annotation = '*'
         else:
             annotation = ''
-        print(annotation)
         ax2.annotate(annotation,
                      xy=(rect.get_x() + rect.get_width() / 2, height),
                      xytext=(0, 3),  # 3 points vertical offset
                      textcoords="offset points",
-                     ha='center', va='center', color="black", fontsize=6)
+                     ha='center', va='center', color="black", fontsize=12, fontweight='bold')
 
 
 df = pd.read_csv('../merged_1.6.1.csv')
@@ -56,7 +55,8 @@ for i in samples:
             s.add(gene)
             inputs.append(gene)
             labels.append(gene)
-
+parser.save_obj(labels, 'labels')
+quit()
 # pValues = []
 # for gene in inputs:
 #     print(gene)
@@ -88,33 +88,24 @@ for i in samples:
 pValues = parser.load_obj('pvalues')
 data = parser.load_obj('data')
 
-position = []
-counter = 1
-while len(position) < len(data):
-    if counter % 3 == 0:
-        counter += 1
-        continue
-    position.append(counter/1.5)
-    counter += 1
-labels = []
-for gene in inputs:
-    labels.append(gene)
-ind = position  # the x locations for the groups
-width = 0.5  # the width of the bars
-
+# the x locations for the groups
+ind = np.arange(start=0, stop=len(data)*1.5, step=3)
+width = 1.25  # the width of the bars
 fig2, ax2 = plt.subplots(figsize=(20, 15))
-medians = []
+means = []
+print(ind)
 for dataset in data:
-    medians.append(median(dataset))
-rects1 = ax2.bar([x+width/2 for x in ind[0::2]], medians[0::2], width,
+    means.append(mean(dataset))
+rects1 = ax2.bar(ind-width/2, means[0::2], width,
                  label='WT Gene')
-rects2 = ax2.bar([x-width/2 for x in ind[1::2]], medians[1::2], width,
+rects2 = ax2.bar(ind + width/2, means[1::2], width,
                  label='MUT Gene')
 ax2.set_ylabel('Number of SVs')
-ax2.set_title('Median number of SVs in WT vs Mutant Genes')
-ax2.set_xticks([x+width for x in ind[0::2]])
+ax2.set_title('Mean number of SVs in WT vs Mutant Genes')
+ax2.set_xticks(ind)
 ax2.set_xticklabels(labels)
 plt.xticks(rotation=90)
 ax2.legend()
 autolabel(rects2, pValues)
+
 plt.show()
