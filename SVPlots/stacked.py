@@ -69,12 +69,12 @@ for i in range(0, maxlen):
             forPlot.append(0)
     if len(bottom) == 0:
         rects = ax.bar(x, forPlot, label=f"{i+1} SVs in Samples")
-        autolabel(rects, bottom)
+        #autolabel(rects, bottom)
         bottom = np.array(forPlot)
     else:
         rects = ax.bar(
             x, forPlot, label=f"{i+1} SVs in Samples", bottom=bottom)
-        autolabel(rects, bottom)
+        #autolabel(rects, bottom)
         bottom += np.array(forPlot)
     forlegend.append(rects[0])
     labelsForLegend.append(f"{i+1} SVs in Samples")
