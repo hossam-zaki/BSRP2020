@@ -14,6 +14,10 @@ from scipy import stats
 import dataParser as parser
 import helperFiles.buildPlot as plotBuilder
 
+#plt.rcParams.update({'font.size': 12})
+
+# plt.xticks(rotation=45)
+
 
 def autolabel(rects, significant):
     """Attach a text label above each bar in *rects*, displaying its height."""
@@ -32,7 +36,7 @@ def autolabel(rects, significant):
                      xy=(rect.get_x() + rect.get_width() / 2, height),
                      xytext=(0, 3),  # 3 points vertical offset
                      textcoords="offset points",
-                     ha='center', va='center', color="black", fontsize=12, fontweight='bold')
+                     ha='center', va='center', color="red", fontsize=16, fontweight='bold', zorder=100)
 
 
 df = pd.read_csv('../merged_1.6.1.csv')
@@ -84,8 +88,8 @@ labels = []
 #     pValues.append(value)
 #     print(value)
 
-pValues = parser.load_obj('pvalues')
-data = parser.load_obj('data')
+pValues = parser.load_obj('WTvsMUTpvalues')
+data = parser.load_obj('WTvsMUTdata')
 labels = parser.load_obj('labels')
 # the x locations for the groups
 ind = np.arange(start=0, stop=len(data)*1.5, step=3)
@@ -109,7 +113,7 @@ for i in range(0, len(ind)):
     # distribute scatter randomly across whole width of bar
 
     # ax2.scatter((ind[i]-width/2) + np.random.rand(len(data[i + i])) *
-    #             width - width/2, data[i + i], color='black', zorder=10)
+    #             width - width/2, data[i + i], color='black', zorder=10, s=10)
     ax2.scatter((ind[i]+width/2) + np.random.rand(len(data[i + i + 1])) *
                 width - width/2, data[i + i + 1], color='black', zorder=10, s=10)
 ax2.set_ylabel('Number of SVs')
