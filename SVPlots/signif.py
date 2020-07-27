@@ -33,10 +33,10 @@ def autolabel(rects, significant):
         else:
             annotation = ''
         ax2.annotate(annotation,
-                     xy=(rect.get_x() + rect.get_width() / 2, height),
+                     xy=(rect.get_x(), 2000),
                      xytext=(0, 3),  # 3 points vertical offset
                      textcoords="offset points",
-                     ha='center', va='center', color="red", fontsize=16, fontweight='bold', zorder=100)
+                     ha='center', va='center', color="red", fontsize=20, fontweight='bold', zorder=20)
 
 
 df = pd.read_csv('../merged_1.6.1.csv')
@@ -49,17 +49,16 @@ labels = []
 # s = set()
 # inputs = []
 # counter = 0
-# for i in samples:
-#     for gene in samples[i]:
-#         if(gene in s):
-#             continue
-#         print(gene)
-#         if(not parser.checkValid(gene)):
-#             continue
-#         else:
-#             s.add(gene)
-#             inputs.append(gene)
-#             labels.append(gene)
+# for gene in samples["Homologous recombination"]:
+#     if(gene in s):
+#         continue
+#     print(gene)
+#     if(not parser.checkValid(gene)):
+#         continue
+#     else:
+#         s.add(gene)
+#         inputs.append(gene)
+#         labels.append(gene)
 # pValues = []
 # for gene in inputs:
 #     print(gene)
@@ -88,9 +87,12 @@ labels = []
 #     pValues.append(value)
 #     print(value)
 
-pValues = parser.load_obj('WTvsMUTpvalues')
-data = parser.load_obj('WTvsMUTdata')
-labels = parser.load_obj('labels')
+pValues = parser.load_obj('WTvsmUTsubsetpValues')
+data = parser.load_obj('WTvsMUTsubsetData')
+labels = parser.load_obj('WTvsMUTsubsetLabels')
+# pValues = parser.load_obj('WTvsMUTpvalues')
+# data = parser.load_obj('WTvsMUTdata')
+# labels = parser.load_obj('labels')
 # the x locations for the groups
 ind = np.arange(start=0, stop=len(data)*1.5, step=3)
 width = 1.25  # the width of the bars
@@ -112,23 +114,26 @@ rects2 = ax2.bar(ind + width/2, means[1::2], width,
 for i in range(0, len(ind)):
     # distribute scatter randomly across whole width of bar
 
-    # ax2.scatter((ind[i]-width/2) + np.random.rand(len(data[i + i])) *
-    #             width - width/2, data[i + i], color='black', zorder=10, s=10)
+    ax2.scatter((ind[i]-width/2) + np.random.rand(len(data[i + i])) *
+                width - width/2, data[i + i], color='blue', edgecolor='black', zorder=10, s=10)
     ax2.scatter((ind[i]+width/2) + np.random.rand(len(data[i + i + 1])) *
-                width - width/2, data[i + i + 1], color='black', zorder=10, s=10)
+                width - width/2, data[i + i + 1], color='orange', edgecolor='black', zorder=10, s=10)
 ax2.set_ylabel('Number of SVs')
 ax2.set_title('Mean number of SVs in WT vs Mutant Genes')
 ax2.set_xticks(ind)
 ax2.set_xticklabels(labels)
 plt.xticks(rotation=90)
-plt.scatter([], [], marker='.', label="Number of SVs for individual sample",
-            color='black', linestyle='None')
+plt.scatter([], [], marker='.', label="Individual Sample with MUT Gene",
+            color='orange', edgecolor='black', zorder=10, s=30, linestyle='None')
+plt.scatter([], [], marker='.', label="Individual Sample with WT Gene",
+            color='blue', edgecolor='black', zorder=10, s=30, linestyle='None')
 plt.scatter([], [], marker=r'$\ast$', label="p < .05",
             color='red', linestyle='None')
 plt.scatter([], [], marker=r'$\ast\ast$', label="p < .01",
             color='red', linestyle='None', s=600)
 plt.scatter([], [], marker=r'$\ast\ast\ast$',
             label="p < .005", color='red', linestyle='None', s=750)
-ax2.legend()
+# l = ax2.legend()
+# l.set_zorder(50)
 autolabel(rects2, pValues)
 plt.show()
