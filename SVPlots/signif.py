@@ -88,9 +88,9 @@ labels = []
 #     pValues.append(value)
 #     print(value)
 
-# pValues = parser.load_obj('WTvsMUTpvalues')
-# data = parser.load_obj('WTvsMUTdata')
-# labels = parser.load_obj('labels')
+pValues = parser.load_obj('WTvsMUTpvalues')
+data = parser.load_obj('WTvsMUTdata')
+labels = parser.load_obj('labels')
 # the x locations for the groups
 ind = np.arange(start=0, stop=len(data)*1.5, step=3)
 width = 1.25  # the width of the bars
@@ -121,6 +121,8 @@ ax2.set_title('Mean number of SVs in WT vs Mutant Genes')
 ax2.set_xticks(ind)
 ax2.set_xticklabels(labels)
 plt.xticks(rotation=90)
+plt.scatter([], [], marker='.', label="Number of SVs for individual sample",
+            color='black', linestyle='None')
 plt.scatter([], [], marker=r'$\ast$', label="p < .05",
             color='red', linestyle='None')
 plt.scatter([], [], marker=r'$\ast\ast$', label="p < .01",
