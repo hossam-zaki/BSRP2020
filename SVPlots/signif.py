@@ -45,53 +45,53 @@ data = []
 labels = []
 
 
-samples = parser.samples
-s = set()
-inputs = []
-counter = 0
-for gene in samples["Homologous recombination"]:
-    if(gene in s):
-        continue
-    print(gene)
-    if(not parser.checkValid(gene)):
-        continue
-    else:
-        s.add(gene)
-        inputs.append(gene)
-        labels.append(gene)
-pValues = []
-for gene in inputs:
-    print(gene)
-    all_donors = df['donor_unique_id'].unique()
-    donorsInGene = parser.getDonors(gene)
-    diffDonors = parser.diff(all_donors, donorsInGene)
+# samples = parser.samples
+# s = set()
+# inputs = []
+# counter = 0
+# for gene in samples["Homologous recombination"]:
+#     if(gene in s):
+#         continue
+#     print(gene)
+#     if(not parser.checkValid(gene)):
+#         continue
+#     else:
+#         s.add(gene)
+#         inputs.append(gene)
+#         labels.append(gene)
+# pValues = []
+# for gene in inputs:
+#     print(gene)
+#     all_donors = df['donor_unique_id'].unique()
+#     donorsInGene = parser.getDonors(gene)
+#     diffDonors = parser.diff(all_donors, donorsInGene)
 
-    affected = []
-    notaffected = []
+#     affected = []
+#     notaffected = []
 
-    for donor in donorsInGene:
-        donorDF = df[(df['donor_unique_id'] == donor)]
-        affected.append(len(donorDF.index))
+#     for donor in donorsInGene:
+#         donorDF = df[(df['donor_unique_id'] == donor)]
+#         affected.append(len(donorDF.index))
 
-    for donor in diffDonors:
-        donorDF = df[(df['donor_unique_id'] == donor)]
-        notaffected.append(len(donorDF.index))
-    if(len(affected) == 0):
-        affected.append(0)
-    if(len(notaffected) == 0):
-        notaffected.append(0)
-    data.append(notaffected)
-    data.append(affected)
-    value = stats.ttest_ind(affected, notaffected)[1]
-    pValues.append(value)
-    print(value)
+#     for donor in diffDonors:
+#         donorDF = df[(df['donor_unique_id'] == donor)]
+#         notaffected.append(len(donorDF.index))
+#     if(len(affected) == 0):
+#         affected.append(0)
+#     if(len(notaffected) == 0):
+#         notaffected.append(0)
+#     data.append(notaffected)
+#     data.append(affected)
+#     value = stats.ttest_ind(affected, notaffected)[1]
+#     pValues.append(value)
+#     print(value)
 
-parser.save_obj(pValues, 'WTvsmUTsubsetpValues')
-parser.save_obj(data, 'WTvsMUTsubsetData')
-parser.save_obj(labels, 'WTvsMUTsubsetLabels')
-# pValues = parser.load_obj('WTvsMUTpvalues')
-# data = parser.load_obj('WTvsMUTdata')
-# labels = parser.load_obj('labels')
+# parser.save_obj(pValues, 'WTvsmUTsubsetpValues')
+# parser.save_obj(data, 'WTvsMUTsubsetData')
+# parser.save_obj(labels, 'WTvsMUTsubsetLabels')
+pValues = parser.load_obj('WTvsmUTsubsetpValues')
+data = parser.load_obj('WTvsMUTsubsetData')
+labels = parser.load_obj('WTvsMUTsubsetLabels')
 # the x locations for the groups
 ind = np.arange(start=0, stop=len(data)*1.5, step=3)
 width = 1.25  # the width of the bars
@@ -114,13 +114,12 @@ for i in range(0, len(ind)):
     # distribute scatter randomly across whole width of bar
 
     ax2.scatter((ind[i]-width/2) + np.random.rand(len(data[i + i])) *
-                width - width/2, data[i + i], color='blue', edgecolor='black', zorder=10, s=10)
+                width - width/2, data[i + i], color='blue', edgecolor='black', zorder=10, s=10, alpha=0.15)
     ax2.scatter((ind[i]+width/2) + np.random.rand(len(data[i + i + 1])) *
-                width - width/2, data[i + i + 1], color='orange', edgecolor='black', zorder=10, s=10)
-ax2.set_ylabel('Number of SVs')
-ax2.set_title('Mean number of SVs in WT vs Mutant Genes')
+                width - width/2, data[i + i + 1], color='orange', edgecolor='black', zorder=10, s=10, alpha=.75)
+ax2.set_ylabel('Number of SVs', fontsize=16)
 ax2.set_xticks(ind)
-ax2.set_xticklabels(labels)
+ax2.set_xticklabels(labels, fontsize=12)
 plt.xticks(rotation=90)
 plt.scatter([], [], marker='.', label="Individual Sample with MUT Gene",
             color='orange', edgecolor='black', zorder=10, s=30, linestyle='None')
@@ -132,7 +131,7 @@ plt.scatter([], [], marker=r'$\ast\ast$', label="p < .01",
             color='red', linestyle='None', s=600)
 plt.scatter([], [], marker=r'$\ast\ast\ast$',
             label="p < .005", color='red', linestyle='None', s=750)
-# l = ax2.legend()
-# l.set_zorder(50)
+l = ax2.legend(prop={'size': 12})
+l.set_zorder(50)
 autolabel(rects2, pValues)
 plt.show()
