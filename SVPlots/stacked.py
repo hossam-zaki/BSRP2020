@@ -47,7 +47,7 @@ for i in samples:
             labels.append(gene)
             data.append(np.histogram(toAdd)[0])
 
-
+parser.save_obj(data, "stackedBarPlotData")
 maxlen = 0
 for arr in data:
     if len(arr) > maxlen:
@@ -80,9 +80,8 @@ for i in range(0, maxlen):
     labelsForLegend.append(f"{i+1} SVs in Samples")
 
 ax.set_title('Number of Donors with SVs in Samples')
-ax.set_ylabel('Number of Donors')
+ax.set_ylabel('Number of Donors', fontsize=12)
 ax.set_xlabel('Genes')
-ax.set_title('Number of SVs in Samples')
 ax.set_xticks(x)
 plt.xticks(rotation=90)
 ax.set_xticklabels(labels)

@@ -114,7 +114,7 @@ for i in range(0, len(ind)):
     # distribute scatter randomly across whole width of bar
 
     ax2.scatter((ind[i]-width/2) + np.random.rand(len(data[i + i])) *
-                width - width/2, data[i + i], color='blue', edgecolor='black', zorder=10, s=10, alpha=0.15)
+                width - width/2, data[i + i], color='blue', edgecolor='black', zorder=10, s=10, alpha=0.35)
     ax2.scatter((ind[i]+width/2) + np.random.rand(len(data[i + i + 1])) *
                 width - width/2, data[i + i + 1], color='orange', edgecolor='black', zorder=10, s=10, alpha=.75)
 ax2.set_ylabel('Number of SVs', fontsize=16)

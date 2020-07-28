@@ -52,8 +52,8 @@ def buildPlot():
     plt.stem(placeInGenome, numberOfOccurences)
 
     plt.title("RAD51B Mutation Map")
-    plt.xlabel('Position')
-    plt.ylabel('Frequency of Mutation')
+    plt.xlabel('Position', fontsize=12)
+    plt.ylabel('Frequency of Mutation', fontsize=12)
 
 
 def addTranscriptstoPlot():
@@ -81,5 +81,5 @@ def addTranscriptstoPlot():
 
 if __name__ == "__main__":
     buildPlot()
-    addTranscriptstoPlot()
+    # addTranscriptstoPlot()
     plt.show()
