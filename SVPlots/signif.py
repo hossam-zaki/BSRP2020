@@ -45,51 +45,50 @@ data = []
 labels = []
 
 
-# samples = parser.samples
-# s = set()
-# inputs = []
-# counter = 0
-# for gene in samples["Homologous recombination"]:
-#     if(gene in s):
-#         continue
-#     print(gene)
-#     if(not parser.checkValid(gene)):
-#         continue
-#     else:
-#         s.add(gene)
-#         inputs.append(gene)
-#         labels.append(gene)
-# pValues = []
-# for gene in inputs:
-#     print(gene)
-#     all_donors = df['donor_unique_id'].unique()
-#     donorsInGene = parser.getDonors(gene)
-#     diffDonors = parser.diff(all_donors, donorsInGene)
+samples = parser.samples
+s = set()
+inputs = []
+counter = 0
+for gene in samples["Homologous recombination"]:
+    if(gene in s):
+        continue
+    print(gene)
+    if(not parser.checkValid(gene)):
+        continue
+    else:
+        s.add(gene)
+        inputs.append(gene)
+        labels.append(gene)
+pValues = []
+for gene in inputs:
+    print(gene)
+    all_donors = df['donor_unique_id'].unique()
+    donorsInGene = parser.getDonors(gene)
+    diffDonors = parser.diff(all_donors, donorsInGene)
 
-#     affected = []
-#     notaffected = []
+    affected = []
+    notaffected = []
 
-#     for donor in donorsInGene:
-#         donorDF = df[(df['donor_unique_id'] == donor)]
-#         affected.append(len(donorDF.index))
+    for donor in donorsInGene:
+        donorDF = df[(df['donor_unique_id'] == donor)]
+        affected.append(len(donorDF.index))
 
-#     for donor in diffDonors:
-#         donorDF = df[(df['donor_unique_id'] == donor)]
-#         notaffected.append(len(donorDF.index))
-#     if(len(affected) == 0):
-#         affected.append(0)
-#     if(len(notaffected) == 0):
-#         notaffected.append(0)
-#     data.append(notaffected)
-#     data.append(affected)
-#     labels.append(gene)
-#     value = stats.ttest_ind(affected, notaffected)[1]
-#     pValues.append(value)
-#     print(value)
+    for donor in diffDonors:
+        donorDF = df[(df['donor_unique_id'] == donor)]
+        notaffected.append(len(donorDF.index))
+    if(len(affected) == 0):
+        affected.append(0)
+    if(len(notaffected) == 0):
+        notaffected.append(0)
+    data.append(notaffected)
+    data.append(affected)
+    value = stats.ttest_ind(affected, notaffected)[1]
+    pValues.append(value)
+    print(value)
 
-pValues = parser.load_obj('WTvsmUTsubsetpValues')
-data = parser.load_obj('WTvsMUTsubsetData')
-labels = parser.load_obj('WTvsMUTsubsetLabels')
+parser.save_obj(pValues, 'WTvsmUTsubsetpValues')
+parser.save_obj(data, 'WTvsMUTsubsetData')
+parser.save_obj(labels, 'WTvsMUTsubsetLabels')
 # pValues = parser.load_obj('WTvsMUTpvalues')
 # data = parser.load_obj('WTvsMUTdata')
 # labels = parser.load_obj('labels')
