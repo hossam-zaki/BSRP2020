@@ -13,10 +13,12 @@ import helperFiles.buildplot as plotBuilder
 import helperFiles.getUniprotRanges as proteinRanges
 
 
-def getProteinCodingRanges(start, end):
+def getProteinCodingRanges(start, end, accession, chromosome):
     print("yo")
+    print(accession)
+    print(chromosome)
     result = subprocess.run(
-        ["Rscript", "getDomains.R", "--start", start, "--end", end], stdout=subprocess.PIPE, text=True)
+        ["Rscript", "getDomains.R", "--start", start, "--end", end, "--accession", accession, "--chromosome", chromosome], stdout=subprocess.PIPE, text=True)
     str = result.stdout.split('\n')
     toReturn = set()
     for sub in str:
@@ -26,13 +28,12 @@ def getProteinCodingRanges(start, end):
     return toReturn
 
 
-def buildRanges():
+def buildRanges(gene, accession, chromosome):
     transcriptAndRange = {}
-    ranges = proteinRanges.getRange()
+    ranges = proteinRanges.getRange(gene)
     for feat in ranges:
-        print("yee")
-        print(ranges[feat])
-        result = getProteinCodingRanges(ranges[feat][0], ranges[feat][1])
+        result = getProteinCodingRanges(
+            ranges[feat][0], ranges[feat][1], accession, str(chromosome))
         transcriptAndRange[feat] = []
         for item in result:
             transcriptAndRange[feat].append(item)

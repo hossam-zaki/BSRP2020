@@ -43,10 +43,9 @@ def getRange(gene):
             if(feature.attrib['type'] != 'domain' and 'region' not in feature.attrib['type']):
                 continue
             description = feature.attrib['description']
-            print(description)
             rangesWithLabels[description] = ((begin, end))
     return rangesWithLabels
 
 
 if __name__ == "__main__":
-    getRange('RAD51B')
+    print(getRange('XRCC6'))
