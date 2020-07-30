@@ -127,16 +127,17 @@ samples = parser.samples
 labels = []
 s = set()
 counter = 0
-for category in samples:
-    for gene in samples[category]:
-        if(gene in s):
-            continue
-        print(gene)
-        if(not parser.checkValid(gene)):
-            continue
-        else:
-            s.add(gene)
-            labels.append(gene)
+# for category in samples:
+#     for gene in samples[category]:
+#         if(gene in s):
+#             continue
+#         print(gene)
+#         if(not parser.checkValid(gene)):
+#             continue
+#         else:
+#             s.add(gene)
+#             labels.append(gene)
+labels = parser.load_obj('WTvsMUTsubsetLabels')
 for gene in labels:
     print(gene)
     try:
@@ -158,7 +159,7 @@ fig1, ax = plt.subplots(figsize=(10, 6))
 
 ind = np.arange(len(interchromosomal))  # the x locations for the groups
 width = 0.35  # the width of the bars
-
+print(interchromosomal)
 fig, ax = plt.subplots()
 rects1 = ax.bar(ind - width/2, interchromosomal, width,
                 label='Number of Interchromosomal Rearrangements')
@@ -167,8 +168,10 @@ rects2 = ax.bar(ind + width/2, intrachromosomal, width,
 
 ax.set_ylabel('Number of Rearrangements', fontsize=16)
 ax.set_xlabel('Genes')
+ax.set_xticks(ind)
+ax.set_xticklabels(labels, fontsize=13)
 plt.xticks(rotation=90)
-ax.legend(prop={'size': 12})
+ax.legend(prop={'size': 13})
 autolabel(rects1)
 autolabel(rects2)
 
